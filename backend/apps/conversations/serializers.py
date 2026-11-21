@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from .models import Conversation, Message, MessageCitation
 from apps.documents.serializers import DocumentSerializer
+from apps.documents.models import Document
 
 class MessageCitationSerializer(serializers.ModelSerializer):
     document_title = serializers.CharField(source='document.title', read_only=True)
@@ -20,7 +21,7 @@ class MessageSerializer(serializers.ModelSerializer):
 class ConversationSerializer(serializers.ModelSerializer):
     selected_document_ids = serializers.PrimaryKeyRelatedField(
         many=True,
-        queryset=from_queryset := Document.objects.all(),
+        queryset=Document.objects.all(),
         source='selected_documents',
         required=False
     )
